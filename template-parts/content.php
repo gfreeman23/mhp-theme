@@ -4,7 +4,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package mhp-theme
+ * @package GFree
  */
 
 ?>
@@ -17,19 +17,19 @@
 		else :
 			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 		endif;
-
-		if ( 'post' === get_post_type() ) :
-			?>
-			<div class="entry-meta">
-				<?php
-				mhp_theme_posted_on();
-				mhp_theme_posted_by();
-				?>
-			</div><!-- .entry-meta -->
-		<?php endif; ?>
+		?>
 	</header><!-- .entry-header -->
 
-	<?php mhp_theme_post_thumbnail(); ?>
+	<?php if ( 'post' === get_post_type() ) :
+		?>
+		<div class="entry-meta">
+			<div class="entry-meta-posted-on"><i class="fa fa-calendar"></i> <?php echo get_the_date(); ?></div>
+			<div class="entry-meta-posted-by"><i class="fa fa-user"></i> <?php echo get_the_author(); ?></div>
+			<div class="entry-meta-posted-in"><i class="fa fa-folder"></i> <?php gfree_entry_footer(); ?></div>
+		</div><!-- .entry-meta -->
+	<?php endif; ?>
+
+	<?php gfree_post_thumbnail(); ?>
 
 	<div class="entry-content">
 		<?php
@@ -37,7 +37,7 @@
 			sprintf(
 				wp_kses(
 					/* translators: %s: Name of current post. Only visible to screen readers */
-					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'mhp-theme' ),
+					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'gfree' ),
 					array(
 						'span' => array(
 							'class' => array(),
@@ -50,14 +50,11 @@
 
 		wp_link_pages(
 			array(
-				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'mhp-theme' ),
+				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'gfree' ),
 				'after'  => '</div>',
 			)
 		);
 		?>
 	</div><!-- .entry-content -->
 
-	<footer class="entry-footer">
-		<?php mhp_theme_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->

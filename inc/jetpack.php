@@ -4,7 +4,7 @@
  *
  * @link https://jetpack.com/
  *
- * @package mhp-theme
+ * @package GFree
  */
 
 /**
@@ -14,13 +14,13 @@
  * See: https://jetpack.com/support/responsive-videos/
  * See: https://jetpack.com/support/content-options/
  */
-function mhp_theme_jetpack_setup() {
+function gfree_jetpack_setup() {
 	// Add theme support for Infinite Scroll.
 	add_theme_support(
 		'infinite-scroll',
 		array(
 			'container' => 'main',
-			'render'    => 'mhp_theme_infinite_scroll_render',
+			'render'    => 'gfree_infinite_scroll_render',
 			'footer'    => 'page',
 		)
 	);
@@ -33,7 +33,7 @@ function mhp_theme_jetpack_setup() {
 		'jetpack-content-options',
 		array(
 			'post-details' => array(
-				'stylesheet' => 'mhp-theme-style',
+				'stylesheet' => 'gfree-style',
 				'date'       => '.posted-on',
 				'categories' => '.cat-links',
 				'tags'       => '.tags-links',
@@ -48,12 +48,12 @@ function mhp_theme_jetpack_setup() {
 		)
 	);
 }
-add_action( 'after_setup_theme', 'mhp_theme_jetpack_setup' );
+add_action( 'after_setup_theme', 'gfree_jetpack_setup' );
 
 /**
  * Custom render function for Infinite Scroll.
  */
-function mhp_theme_infinite_scroll_render() {
+function gfree_infinite_scroll_render() {
 	while ( have_posts() ) {
 		the_post();
 		if ( is_search() ) :

@@ -1,10 +1,10 @@
 <?php
 /**
- * mhp-theme functions and definitions
+ * GFree functions and definitions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package mhp-theme
+ * @package GFree
  */
 
 if ( ! defined( '_S_VERSION' ) ) {
@@ -12,7 +12,7 @@ if ( ! defined( '_S_VERSION' ) ) {
 	define( '_S_VERSION', '1.0.0' );
 }
 
-if ( ! function_exists( 'mhp_theme_setup' ) ) :
+if ( ! function_exists( 'gfree_setup' ) ) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
@@ -20,14 +20,14 @@ if ( ! function_exists( 'mhp_theme_setup' ) ) :
 	 * runs before the init hook. The init hook is too late for some features, such
 	 * as indicating support for post thumbnails.
 	 */
-	function mhp_theme_setup() {
+	function gfree_setup() {
 		/*
 		 * Make theme available for translation.
 		 * Translations can be filed in the /languages/ directory.
-		 * If you're building a theme based on mhp-theme, use a find and replace
-		 * to change 'mhp-theme' to the name of your theme in all the template files.
+		 * If you're building a theme based on GFree, use a find and replace
+		 * to change 'gfree' to the name of your theme in all the template files.
 		 */
-		load_theme_textdomain( 'mhp-theme', get_template_directory() . '/languages' );
+		load_theme_textdomain( 'gfree', get_template_directory() . '/languages' );
 
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
@@ -50,7 +50,7 @@ if ( ! function_exists( 'mhp_theme_setup' ) ) :
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus(
 			array(
-				'menu-1' => esc_html__( 'Primary', 'mhp-theme' ),
+				'menu-1' => esc_html__( 'Primary', 'gfree' ),
 			)
 		);
 
@@ -75,7 +75,7 @@ if ( ! function_exists( 'mhp_theme_setup' ) ) :
 		add_theme_support(
 			'custom-background',
 			apply_filters(
-				'mhp_theme_custom_background_args',
+				'gfree_custom_background_args',
 				array(
 					'default-color' => 'ffffff',
 					'default-image' => '',
@@ -102,7 +102,7 @@ if ( ! function_exists( 'mhp_theme_setup' ) ) :
 		);
 	}
 endif;
-add_action( 'after_setup_theme', 'mhp_theme_setup' );
+add_action( 'after_setup_theme', 'gfree_setup' );
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -111,22 +111,22 @@ add_action( 'after_setup_theme', 'mhp_theme_setup' );
  *
  * @global int $content_width
  */
-function mhp_theme_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'mhp_theme_content_width', 640 );
+function gfree_content_width() {
+	$GLOBALS['content_width'] = apply_filters( 'gfree_content_width', 640 );
 }
-add_action( 'after_setup_theme', 'mhp_theme_content_width', 0 );
+add_action( 'after_setup_theme', 'gfree_content_width', 0 );
 
 /**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function mhp_theme_widgets_init() {
+function gfree_widgets_init() {
 	register_sidebar(
 		array(
-			'name'          => esc_html__( 'Sidebar', 'mhp-theme' ),
+			'name'          => esc_html__( 'Sidebar', 'gfree' ),
 			'id'            => 'sidebar-1',
-			'description'   => esc_html__( 'Add widgets here.', 'mhp-theme' ),
+			'description'   => esc_html__( 'Add widgets here.', 'gfree' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title">',
@@ -134,22 +134,29 @@ function mhp_theme_widgets_init() {
 		)
 	);
 }
-add_action( 'widgets_init', 'mhp_theme_widgets_init' );
+add_action( 'widgets_init', 'gfree_widgets_init' );
 
 /**
  * Enqueue scripts and styles.
  */
-function mhp_theme_scripts() {
-	wp_enqueue_style( 'mhp-theme-style', get_stylesheet_uri(), array(), _S_VERSION );
-	wp_style_add_data( 'mhp-theme-style', 'rtl', 'replace' );
+function gfree_scripts() {
+	wp_enqueue_style( 'gfree-style', get_stylesheet_uri(), array(), _S_VERSION );
+	
+	wp_enqueue_style( 'wpb-google-fonts', 'https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Roboto+Condensed:400,700|Roboto:400,700&display=swap', false );
+	wp_style_add_data( 'gfree-style', 'rtl', 'replace' );
+	wp_enqueue_script( 'gfree-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 
-	wp_enqueue_script( 'mhp-theme-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	// deregister default jQuery included with Wordpress
+	wp_deregister_script( 'jquery' );
+	wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js', array(), '20151215', false );
+	wp_enqueue_script( 'gfree-scripts', get_template_directory_uri() . '/js/scripts.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'gfree-fontawesome', get_template_directory_uri() . '/js/fontawesome.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'mhp_theme_scripts' );
+add_action( 'wp_enqueue_scripts', 'gfree_scripts' );
 
 /**
  * Implement the Custom Header feature.
@@ -178,3 +185,31 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+/*** ACF OPTIONS PAGE ***/
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page(array(
+		'page_title' => 'Theme General Settings',
+		'menu_title' => 'Theme Settings'
+	));
+}
+
+/*** REMOVE COMMENTS ***/
+
+// Removes from admin menu
+add_action( 'admin_menu', 'my_remove_admin_menus' );
+function my_remove_admin_menus() {
+    remove_menu_page( 'edit-comments.php' );
+}
+// Removes from post and pages
+add_action('init', 'remove_comment_support', 100);
+
+function remove_comment_support() {
+    remove_post_type_support( 'post', 'comments' );
+    remove_post_type_support( 'page', 'comments' );
+}
+// Removes from admin bar
+function mytheme_admin_bar_render() {
+    global $wp_admin_bar;
+    $wp_admin_bar->remove_menu('comments');
+}
+add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );

@@ -6,24 +6,28 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
- * @package mhp-theme
+ * @package GFree
  */
 
 ?>
 
+	<div id="footer-widgets">
+		<?php if( have_rows('footer_widget', 'option') ): ?>
+		<div id="footer-widget-wrap">
+			<?php while( have_rows('footer_widget', 'option') ): the_row(); ?>
+			<div class="footer-widget">
+				<div class="footer-widget-icon"><?php the_sub_field('footer_widget_icon'); ?></div>
+				<div class="footer-widget-heading"><h4><?php the_sub_field('footer_widget_heading'); ?></h4></div>
+				<div class="footer-widget-subhead"><?php the_sub_field('footer_widget_subhead'); ?></div>
+			</div>
+			<?php endwhile; ?>
+		</div>
+		<?php endif; ?>
+	</div>
+
 	<footer id="colophon" class="site-footer">
 		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'mhp-theme' ) ); ?>">
-				<?php
-				/* translators: %s: CMS name, i.e. WordPress. */
-				printf( esc_html__( 'Proudly powered by %s', 'mhp-theme' ), 'WordPress' );
-				?>
-			</a>
-			<span class="sep"> | </span>
-				<?php
-				/* translators: 1: Theme name, 2: Theme author. */
-				printf( esc_html__( 'Theme: %1$s by %2$s.', 'mhp-theme' ), 'mhp-theme', '<a href="http://underscores.me/">Underscores.me</a>' );
-				?>
+			Copyright &copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?> - All Rights Reserved
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
